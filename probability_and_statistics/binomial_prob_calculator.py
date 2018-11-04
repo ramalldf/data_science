@@ -43,6 +43,10 @@ def binomial(n,k,p_success):
     
     return prob_success
 
+def calc_geom_prob(num_events, p_success):
+    """Calculates the prob. of a success in exactly the num_events tries."""
+    p_first= p_success*((1-p_success)**(num_events-1))
+    return p_first
 
 if __name__ == "__main__":
     main()
