@@ -55,25 +55,28 @@ def recalc_center_pos(group_positions, orig_data):
     return new_mean_centers
     
 #=========================#
-random.seed(a=42)
+#random.seed(a=42)
 sample= [4,3,10,9,5,17,2,24,18,16,6,20,11]
 k_val= 3
 
 #Initialize centers and assign labels to data
-center_positions_0, data_labels_0= init_labeling(3, sample)
+#center_positions_0, data_labels_0= init_labeling(3, sample)
+data_labels_0= [random.choice(range(k_val)) for a in range(len(sample))]
 
-
-#Calculate distance of points to centers and get 
-#total cluster variation
-
+#Calculate distance of points to centers and get total cluster variation
 cluster_var_0, cluster_data_0= calc_group_dists(data_labels_0, sample, 3)
 
-#Now we'll enter loop to update the centers and variation every time
-#Update the 
-current_variation= cluster_var_0
-current_mean_center= center_positions_0
+
+#For sanity check
+print(data_labels_0, cluster_var_0)
+
+#Now we'll initialize two values 
+#1) The group data to update the cluster centers  
 cluster_data_iter= cluster_data_0
 
+#2) The variation, which has an 'old' value (current) and a 'new'
+#value, which we'll modify just a bit to enter the while loop
+current_variation= cluster_var_0
 new_variation= current_variation+1
 
 while new_variation != current_variation:
@@ -95,9 +98,9 @@ while new_variation != current_variation:
         #it to that cluster
         group_labels.append(nearest_cluster.index(min(nearest_cluster)))  
     
-
-    #Update values for clustered_data and variation score    
-    new_variation, cluster_data_new= calc_group_dists(group_labels, sample, 3)  
+    #Update variation score    
+    new_variation, cluster_data_new= calc_group_dists(group_labels, sample, 3)      
+    #Update group data 
     cluster_data_iter= cluster_data_new
     
     print(group_labels, new_variation)
